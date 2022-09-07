@@ -1,10 +1,9 @@
-package com.programmisten.game.States;
+package com.programmisten.game.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.programmisten.game.FlappySpace;
-
-import org.w3c.dom.Text;
 
 
 public class MenuState extends State{
@@ -34,12 +33,16 @@ public class MenuState extends State{
 
     @Override
     public void handleInput() {
+        if (Gdx.input.justTouched()) {
+            gsm.set(new PlayState(gsm));
+            dispose();
+        }
 
     }
 
     @Override
     public void update(float dt) {
-
+    handleInput();
     }
     // Hardcoded for aligning :/
     @Override
@@ -55,5 +58,15 @@ public class MenuState extends State{
         sb.draw(highscoreButton, 0+buttonMargin, FlappySpace.HEIGHT - buttonScale -buttonMargin, buttonScale, buttonScale);
         sb.end();
 
+    }
+
+    @Override
+    public void dispose() {
+        background.dispose();
+        playBtn.dispose();
+        title.dispose();
+        player.dispose();
+        settingsButton.dispose();
+        highscoreButton.dispose();
     }
 }
