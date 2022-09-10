@@ -10,8 +10,8 @@ import org.w3c.dom.Text;
 
 public class PlayState extends State {
     private  Player player;
-    private static final int velocityBoostAtGround = 300;
-    private static final int jumpHeight = 280;
+    private static final int velocityBoostAtGround = 200;
+    private static final int jumpHeight = 200;
     private Texture background;
 
 

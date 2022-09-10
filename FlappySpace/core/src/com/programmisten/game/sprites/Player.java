@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player {
-    private static final int GRAVITY = -15;
+    private static final int GRAVITY = -10;
     private Vector3 position;
     private Vector3 velocity;
 
