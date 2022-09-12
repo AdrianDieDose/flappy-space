@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.programmisten.game.FlappySpace;
 import com.programmisten.game.sprites.Player;
+import com.programmisten.game.sprites.Meteor;
 
 import org.w3c.dom.Text;
 
 public class PlayState extends State {
     private  Player player;
+    private Meteor meteor;
     private static final int velocityBoostAtGround = 300;
     private static final int jumpHeight = 280;
     private Texture background;
@@ -19,6 +21,7 @@ public class PlayState extends State {
         super(gsm);
         background = new Texture("spaceshort.jpg");
         player = new Player(30,300);
+        meteor = new Meteor(30,300);
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
 
     }
@@ -53,6 +56,7 @@ public class PlayState extends State {
         sb.begin();
         sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
         sb.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getTexture().getWidth() / 3, player.getTexture().getHeight() / 3);
+        sb.draw(meteor.getTexture(), meteor.getPosition().x,meteor.getPosition().y, meteor.getTexture().getWidth(), meteor.getTexture().getHeight());
         sb.end();
     }
 
