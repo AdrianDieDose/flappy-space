@@ -11,25 +11,22 @@ import org.w3c.dom.Text;
 
 public class PlayState extends State {
     private  Player player;
-    private Meteor meteor1;
-    private Meteor meteor2;
+    private Meteor[] meteor = new Meteor[6];
+
     private static final int velocityBoostAtGround = 300;
     private static final int jumpHeight = 280;
     private Texture background;
 
     //Meteor speed
-    private int meteorSpeed = 3;
+    private int Speed = 3;
     private int startPos = 250;
 
-    //Meteor1
-    int max1 = 250;
-    int min1 = 150;
-    int range1 = max1 - min1 + 1;
 
-    //Meteor2
-    int max2 = 50;
-    int min2 = 0;
-    int range2 = max2 - min2 + 1;
+    int[] max = {250,50,250,0,250,50};
+    int[] min = {150,0,150,0,150,0};
+    int[] range = new int[6];
+
+
 
 
 
@@ -37,9 +34,16 @@ public class PlayState extends State {
         super(gsm);
         background = new Texture("spaceshort.jpg");
         player = new Player(30,300);
+        for (int i = 0; i< meteor.length/2; i++) {
+            range[i] = max[i]-min[i]+1;
+        }
+        meteor[0] = new Meteor(startPos, (int) (Math.random() * range[0]) + max[0]);
+        meteor[1] = new Meteor(startPos, (int) (Math.random() * range[1]) + max[1]);
+        meteor[2] = new Meteor(startPos+150, (int) (Math.random() * range[2]) + max[2]);
+        meteor[3] = new Meteor(startPos+150, (int) (Math.random() * range[3]) + max[3]);
+        meteor[4] = new Meteor(startPos+300, (int) (Math.random() * range[4]) + max[4]);
+        meteor[5] = new Meteor(startPos+300, (int) (Math.random() * range[5]) + max[5]);
 
-        meteor1 = new Meteor(startPos,(int)(Math.random() * range1) + max1);
-        meteor2 = new Meteor(startPos,(int)(Math.random() * range2) + max2);
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
 
     }
@@ -65,12 +69,29 @@ public class PlayState extends State {
         if(player.getPosition().y <= FlappySpace.HEIGHT / 14){
             player.setVelocity(velocityBoostAtGround);
         }
-        meteor1.setPosition((int) (meteor1.getPosition().x- meteorSpeed), (int) meteor1.getPosition().y);
-        meteor2.setPosition((int) (meteor2.getPosition().x - meteorSpeed), (int) meteor2.getPosition().y);
+        for (int i = 0; i< meteor.length; i++){
+            meteor[i].setPosition((int) (meteor[i].getPosition().x- Speed), (int) meteor[i].getPosition().y);
+        }
+
+
         player.update(dt);
-        if(meteor1.getPosition().x <=-100 && meteor2.getPosition().x <= -100) {
-            meteor1 = new Meteor(startPos,(int)(Math.random() * range1) + max1);
-            meteor2 = new Meteor(startPos,(int)(Math.random() * range2) + max2);
+        if(meteor[0].getPosition().x <=-100 && meteor[1].getPosition().x <= -100) {
+            for (int i = 0; i < meteor.length; i++) {
+                meteor[0] = new Meteor(startPos, (int) (Math.random() * range[0]) + max[0]);
+                meteor[1] = new Meteor(startPos, (int) (Math.random() * range[1]) + max[1]);
+            }
+        }
+            if(meteor[2].getPosition().x <=-50 && meteor[3].getPosition().x <= -50) {
+                for (int i = 0; i< meteor.length; i++) {
+                    meteor[2] = new Meteor(startPos+100, (int) (Math.random() * range[2]) + max[2]);
+                    meteor[3] = new Meteor(startPos+100, (int) (Math.random() * range[3]) + max[3]);
+                }
+        }
+        if(meteor[4].getPosition().x <=-50 && meteor[5].getPosition().x <= -50) {
+            for (int i = 0; i< meteor.length; i++) {
+                meteor[4] = new Meteor(startPos+100, (int) (Math.random() * range[4]) + max[4]);
+                meteor[5] = new Meteor(startPos+100, (int) (Math.random() * range[5]) + max[5]);
+            }
         }
 
     }
@@ -79,11 +100,11 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
+        sb.draw(background, 0, 0, FlappySpace.WIDTH / 2, FlappySpace.HEIGHT / 2);
         sb.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getTexture().getWidth() / 3, player.getTexture().getHeight() / 3);
-        sb.draw(meteor1.getTexture(), meteor1.getPosition().x,meteor1.getPosition().y, meteor1.getTexture().getWidth()*2, meteor1.getTexture().getHeight()*2);
-        sb.draw(meteor2.getTexture(), meteor2.getPosition().x,meteor2.getPosition().y, meteor2.getTexture().getWidth()*2, meteor2.getTexture().getHeight()*2);
-
+        for (int i = 0; i< meteor.length; i++){
+            sb.draw(meteor[i].getTexture(), meteor[i].getPosition().x, meteor[i].getPosition().y, meteor[i].getTexture().getWidth() * 2, meteor[i].getTexture().getHeight() * 2);
+        }
         sb.end();
     }
 
