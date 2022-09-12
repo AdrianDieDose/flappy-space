@@ -10,12 +10,18 @@ public class Meteor {
     private Texture meteor;
 
 
+
     public Meteor(int x, int y) {
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0,0);
         meteor = new Texture("meteor.png");
     }
 
+
+    public void setPosition(int x, int y) {
+        this.position.x = x;
+        this.position.y = y;
+    }
     public Vector3 getPosition() {
         return position;
     }
