@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.programmisten.game.States.GameStateManager;
-import com.programmisten.game.States.MenuState;
+import com.programmisten.game.states.GameStateManager;
+import com.programmisten.game.states.MenuState;
 
 public class FlappySpace extends ApplicationAdapter {
 	public static final int WIDTH = 480;
