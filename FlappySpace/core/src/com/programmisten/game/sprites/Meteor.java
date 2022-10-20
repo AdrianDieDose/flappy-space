@@ -1,32 +1,63 @@
 package com.programmisten.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Meteor {
-    private Vector3 position;
-    private Vector3 velocity;
+    private Vector2 posTopMeteor, posBotMeteor;
+    private Texture meteorBot, meteorTop;
+    private Rectangle boundsTop, boundsBot;
 
-    private Texture meteor;
+    private static final int topMeteorY = 250;
+    private static final int botMeteorY = 50;
+    private static final int startMeteorXPos = 250;
+    private static final int meteorSpeed = 3;
+    private static final int meteorFluctuation = 70;
 
 
 
-    public Meteor(int x, int y) {
-        position = new Vector3(x, y, 0);
-        velocity = new Vector3(0, 0,0);
-        meteor = new Texture("meteor.png");
+
+
+    public Meteor() {
+        posTopMeteor = new Vector2(startMeteorXPos,(int)(Math.random() * meteorFluctuation) + topMeteorY);
+        posBotMeteor = new Vector2(startMeteorXPos,(int)(Math.random() * meteorFluctuation) + botMeteorY);
+        meteorBot = new Texture("meteor.png");
+        meteorTop = new Texture("meteor.png");
+
+        boundsBot = new Rectangle(posBotMeteor.x, posBotMeteor.y, (float) (meteorBot.getWidth()*1.5), (float) (meteorBot.getHeight()*1.5));
+        boundsTop = new Rectangle(posTopMeteor.x, posTopMeteor.y, (float) (meteorTop.getWidth()*1.5), (float) (meteorTop.getHeight()*1.5));
+
+    }
+
+    public void update(){
+        this.posBotMeteor.x -= meteorSpeed;
+        this.posTopMeteor.x -= meteorSpeed;
+
+        boundsBot.setPosition(posBotMeteor.x, posBotMeteor.y);
+        boundsTop.setPosition(posTopMeteor.x, posTopMeteor.y);
     }
 
 
-    public void setPosition(int x, int y) {
-        this.position.x = x;
-        this.position.y = y;
+
+    public Vector2 getBotMeteorPosition() {
+        return posTopMeteor;
     }
-    public Vector3 getPosition() {
-        return position;
+    public Vector2 getTopMeteorPosition() {
+        return posBotMeteor;
     }
 
-    public Texture getTexture() {
-        return meteor;
+
+    public Texture getMeteorBotTexture() {
+        return meteorBot;
     }
+    public Texture getMeteorTopTexture() {
+        return meteorTop;
+    }
+
+    public boolean collides(Rectangle player){
+        return  player.overlaps(boundsTop) || player.overlaps(boundsBot);
+    }
+
+
 }

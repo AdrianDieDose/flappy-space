@@ -11,35 +11,18 @@ import org.w3c.dom.Text;
 
 public class PlayState extends State {
     private  Player player;
-    private Meteor meteor1;
-    private Meteor meteor2;
-    private static final int velocityBoostAtGround = 300;
-    private static final int jumpHeight = 280;
     private Texture background;
 
-    //Meteor speed
-    private int meteorSpeed = 3;
-    private int startPos = 250;
-
-    //Meteor1
-    int max1 = 250;
-    int min1 = 150;
-    int range1 = max1 - min1 + 1;
-
-    //Meteor2
-    int max2 = 50;
-    int min2 = 0;
-    int range2 = max2 - min2 + 1;
-
+    //Meteor
+    private Meteor meteors;
 
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
         background = new Texture("spaceshort.jpg");
-        player = new Player(30,300);
+        player = new Player(30,100);
 
-        meteor1 = new Meteor(startPos,(int)(Math.random() * range1) + max1);
-        meteor2 = new Meteor(startPos,(int)(Math.random() * range2) + max2);
+        meteors = new Meteor();
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
 
     }
@@ -55,23 +38,30 @@ public class PlayState extends State {
 
         // For Holding
         if (Gdx.input.isTouched()) {
-            player.setVelocity(jumpHeight);
+            player.jump();
         }
     }
 
     @Override
     public void update(float dt) {
         handleInput();
+        //On ground hit
         if(player.getPosition().y <= FlappySpace.HEIGHT / 14){
-            player.setVelocity(velocityBoostAtGround);
+            player.jump();
         }
-        meteor1.setPosition((int) (meteor1.getPosition().x- meteorSpeed), (int) meteor1.getPosition().y);
-        meteor2.setPosition((int) (meteor2.getPosition().x - meteorSpeed), (int) meteor2.getPosition().y);
+        meteors.update();
+
         player.update(dt);
-        if(meteor1.getPosition().x <=-100 && meteor2.getPosition().x <= -100) {
-            meteor1 = new Meteor(startPos,(int)(Math.random() * range1) + max1);
-            meteor2 = new Meteor(startPos,(int)(Math.random() * range2) + max2);
+        // On meteors off screen
+        if(meteors.getBotMeteorPosition().x <=-100 && meteors.getBotMeteorPosition().x <= -100) {
+            meteors = new Meteor();
         }
+
+        //On collide
+        if(meteors.collides(player.getBounds())){
+            gsm.set(new MenuState(gsm));
+        }
+
 
     }
 
@@ -81,8 +71,8 @@ public class PlayState extends State {
         sb.begin();
         sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
         sb.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getTexture().getWidth() / 3, player.getTexture().getHeight() / 3);
-        sb.draw(meteor1.getTexture(), meteor1.getPosition().x,meteor1.getPosition().y, meteor1.getTexture().getWidth()*2, meteor1.getTexture().getHeight()*2);
-        sb.draw(meteor2.getTexture(), meteor2.getPosition().x,meteor2.getPosition().y, meteor2.getTexture().getWidth()*2, meteor2.getTexture().getHeight()*2);
+        sb.draw(meteors.getMeteorBotTexture(), meteors.getBotMeteorPosition().x,meteors.getBotMeteorPosition().y, meteors.getMeteorBotTexture().getWidth()*2, meteors.getMeteorBotTexture().getHeight()*2);
+        sb.draw(meteors.getMeteorTopTexture(), meteors.getTopMeteorPosition().x,meteors.getTopMeteorPosition().y, meteors.getMeteorTopTexture().getWidth()*2, meteors.getMeteorTopTexture().getHeight()*2);
 
         sb.end();
     }
@@ -90,5 +80,6 @@ public class PlayState extends State {
     @Override
     public void dispose() {
         background.dispose();
+
     }
 }
