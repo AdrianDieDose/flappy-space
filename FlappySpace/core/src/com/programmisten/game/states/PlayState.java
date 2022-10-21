@@ -3,11 +3,14 @@ package com.programmisten.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.programmisten.game.FlappySpace;
 import com.programmisten.game.sprites.Player;
 import com.programmisten.game.sprites.Meteor;
 
 import org.w3c.dom.Text;
+
+import sun.awt.image.PixelConverter;
 
 public class PlayState extends State {
     private  Player player;
@@ -46,7 +49,7 @@ public class PlayState extends State {
     public void update(float dt) {
         handleInput();
         //On ground hit
-        if(player.getPosition().y <= FlappySpace.HEIGHT / 14){
+        if(player.getPosition().y <= FlappySpace.HEIGHT / 20){
             player.jump();
         }
         meteors.update();
@@ -59,7 +62,7 @@ public class PlayState extends State {
 
         //On collide
         if(meteors.collides(player.getBounds())){
-            gsm.set(new MenuState(gsm));
+            gsm.set(new Endscreen(gsm));
         }
 
 
@@ -67,14 +70,15 @@ public class PlayState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+        ShapeRenderer renderer = new ShapeRenderer();
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
         sb.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getTexture().getWidth() / 3, player.getTexture().getHeight() / 3);
         sb.draw(meteors.getMeteorBotTexture(), meteors.getBotMeteorPosition().x,meteors.getBotMeteorPosition().y, meteors.getMeteorBotTexture().getWidth()*2, meteors.getMeteorBotTexture().getHeight()*2);
         sb.draw(meteors.getMeteorTopTexture(), meteors.getTopMeteorPosition().x,meteors.getTopMeteorPosition().y, meteors.getMeteorTopTexture().getWidth()*2, meteors.getMeteorTopTexture().getHeight()*2);
-
         sb.end();
+
     }
 
     @Override

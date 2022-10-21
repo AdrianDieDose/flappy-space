@@ -1,5 +1,7 @@
 package com.programmisten.game.states;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,10 +12,12 @@ public abstract class State {
     protected Vector3 mouse;
     protected GameStateManager gsm;
 
+
     protected State(GameStateManager gsm){
         this.gsm = gsm;
         cam = new OrthographicCamera();
         mouse = new Vector3();
+
 
 
     }
