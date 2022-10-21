@@ -14,6 +14,11 @@ public class Player {
     private Texture player;
     private Rectangle bounds;
 
+<<<<<<< Updated upstream
+=======
+    private static final int jumpHeight = 200;
+
+>>>>>>> Stashed changes
 
     public Player(int x, int y) {
         position = new Vector2(x, y);
