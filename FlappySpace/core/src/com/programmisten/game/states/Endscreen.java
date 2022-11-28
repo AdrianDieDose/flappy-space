@@ -34,7 +34,7 @@ public class Endscreen extends State{
         unmuteBtn = new Texture("unmute.png");
         highscoreBtn = new Texture("highscore1.png");
 
-        homeBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(homeBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth() / 2, homeBtn.getHeight() / 2);
+        homeBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
         muteBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(muteBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, muteBtn.getWidth() / 2, homeBtn.getHeight() / 2);
         highscoreBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(highscoreBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, highscoreBtn.getWidth() / 2, homeBtn.getHeight() / 2);
 
@@ -69,8 +69,8 @@ public class Endscreen extends State{
     }
 
     @Override
-    public void update(float dt) {
-
+    public void update(float dt)  {
+        handleInput();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Endscreen extends State{
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
-        sb.draw(homeBtn,(FlappySpace.WIDTH/4)-(homeBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth() / 2, homeBtn.getHeight() / 2);
+        sb.draw(homeBtn,(FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
         sb.end();
 
 
