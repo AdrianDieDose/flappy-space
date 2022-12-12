@@ -71,7 +71,7 @@ public class Endscreen extends State{
 
         stage = new Stage(new StretchViewport(FlappySpace.WIDTH, FlappySpace.HEIGHT));
         skin = new Label.LabelStyle();
-        skin.font = new BitmapFont(Gdx.files.internal("skin2.fnt"), false);
+        skin.font = new BitmapFont(Gdx.files.internal("skin.fnt"), false);
 
 
 

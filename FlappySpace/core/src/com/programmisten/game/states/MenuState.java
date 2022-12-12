@@ -64,7 +64,7 @@ public class MenuState extends State{
         sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
         sb.draw(playBtn, (FlappySpace.WIDTH/4)-(playBtn.getWidth()/4),FlappySpace.HEIGHT /4 - playBtnTextGap, playBtn.getWidth() / 2, playBtn.getHeight() / 2);
         // We need to scale that..
-        sb.draw(title, FlappySpace.WIDTH/7,FlappySpace.HEIGHT /4 + playBtnTextGap, title.getWidth() / 2, title.getHeight()/2);
+        sb.draw(title, FlappySpace.WIDTH/9,FlappySpace.HEIGHT /4 + playBtnTextGap, title.getWidth() / 4, title.getHeight()/4);
 
         sb.draw(player,(FlappySpace.WIDTH/4)-(player.getWidth()/4),(FlappySpace.HEIGHT /4), player.getWidth() / 2, player.getHeight() / 2);
         sb.draw(settingsButton, FlappySpace.WIDTH / 2 - buttonScale -buttonMargin, FlappySpace.HEIGHT / 2 - buttonScale -buttonMargin, buttonScale, buttonScale);

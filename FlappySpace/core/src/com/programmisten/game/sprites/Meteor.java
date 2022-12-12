@@ -20,8 +20,9 @@ public class Meteor {
 
 
     public Meteor() {
+        //Random x pos ? add maybe
         posTopMeteor = new Vector2(startMeteorXPos,(int)(Math.random() * meteorFluctuation) + topMeteorY);
-        posBotMeteor = new Vector2(startMeteorXPos+50,(int)(Math.random() * meteorFluctuation) + botMeteorY);
+        posBotMeteor = new Vector2(startMeteorXPos,(int)(Math.random() * meteorFluctuation) + botMeteorY);
         meteorBot = new Texture("meteor.png");
         meteorTop = new Texture("meteor.png");
 

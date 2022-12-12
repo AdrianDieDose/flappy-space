@@ -51,7 +51,7 @@ public class PlayState extends State {
 
         stage = new Stage(new StretchViewport(FlappySpace.WIDTH, FlappySpace.HEIGHT));
         skin = new Label.LabelStyle();
-        skin.font = new BitmapFont(Gdx.files.internal("skin2.fnt"), false);
+        skin.font = new BitmapFont(Gdx.files.internal("skin.fnt"), false);
 
 
         cam.setToOrtho(false, FlappySpace.WIDTH / 2, FlappySpace.HEIGHT / 2);
@@ -74,7 +74,7 @@ public class PlayState extends State {
     private Actor addScoreLabel() {
         Table layer = new Table();
         layer.top().left();
-        lbl_Score = new Label("" + score, skin);
+        lbl_Score = new Label("Score: " + score, skin);
         layer.add(lbl_Score);
         return layer;
     }
@@ -89,7 +89,7 @@ public class PlayState extends State {
          */
 
         // For Holding
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.justTouched()) {
             player.jump();
         }
     }
