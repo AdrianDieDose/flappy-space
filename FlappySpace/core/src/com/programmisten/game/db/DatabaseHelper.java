@@ -1,3 +1,4 @@
+/*
 package com.programmisten.game.db;
 
 
@@ -26,3 +27,4 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     }
 }
+*/

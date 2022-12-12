@@ -1,7 +1,7 @@
 package com.programmisten.game.db;
 
 public class Database {
-}
+
     private String name;
     private int score;
 

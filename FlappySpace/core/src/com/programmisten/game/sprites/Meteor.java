@@ -65,4 +65,12 @@ public class Meteor {
     public boolean collides(Rectangle player){
         return  player.overlaps(boundsTop) || player.overlaps(boundsBot);
     }
+
+    public Vector2 getPosTopMeteor() {
+        return posTopMeteor;
+    }
+
+    public Vector2 getPosBotMeteor() {
+        return posBotMeteor;
+    }
 }

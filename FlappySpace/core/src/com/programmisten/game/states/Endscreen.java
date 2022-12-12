@@ -45,12 +45,13 @@ public class Endscreen extends State{
     private Rectangle highscoreBtnBounds;
     private Rectangle muteBtnBounds;
 
-    private int score;
+    private int score = 0;
 
 
     public Endscreen(GameStateManager gsm, int highscore) {
         super(gsm);
         score = highscore;
+        System.out.println(highscore);
 
         background = new Texture("spaceshort.jpg");
         homeBtn = new Texture("home.png");
@@ -76,7 +77,7 @@ public class Endscreen extends State{
 
 
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
-
+        rebuildStage();
     }
 
     private void rebuildStage() {
@@ -89,18 +90,20 @@ public class Endscreen extends State{
 
     private Actor addScoreLabel() {
         Table layer = new Table();
-        layer.top().left();
-        score_gamelbl = new Label("" + score, skin);
-        score_dblbl = new Label(""+ getHighscore(), skin);
-        layer.add(score_dblbl);
-        layer.add(score_dblbl);
+        layer.setPosition(FlappySpace.WIDTH/5,FlappySpace.HEIGHT /4);
+
+        score_gamelbl = new Label("Your Score:" + score, skin);
+        //score_dblbl = new Label(""+ getHighscore(), skin);
+        layer.add(score_gamelbl);
+        //layer.add(score_dblbl);
         return layer;
     }
 
+    /*
     private String getHighscore() {
 
     }
-
+    */
 
     @Override
     protected void handleInput() {
@@ -139,6 +142,9 @@ public class Endscreen extends State{
         sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
         sb.draw(homeBtn,(FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
         sb.end();
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
 
     }
 

@@ -33,7 +33,7 @@ public class PlayState extends State {
     private Meteor meteors;
 
     private Stage stage;
-    public int score;
+    public int score = 0;
     private Label lbl_Score;
     private Label.LabelStyle skin;
 
@@ -48,7 +48,6 @@ public class PlayState extends State {
 
         player = new Player(30, 100);
         meteors = new Meteor();
-        score = 0;
 
         stage = new Stage(new StretchViewport(FlappySpace.WIDTH, FlappySpace.HEIGHT));
         skin = new Label.LabelStyle();
@@ -110,13 +109,14 @@ public class PlayState extends State {
         if (meteors.getBotMeteorPosition().x <= -100) {
             score ++;
             meteors = new Meteor();
+            rebuildStage();
         }
 
         if(cam.position.x - cam.viewportWidth * 0.5f > meteors.getPosTopMeteor().x + meteors.getBoundsTop().getWidth()*2){
 
         }
 
-        rebuildStage();
+
 
 
 
