@@ -43,6 +43,9 @@ public class PlayState extends State {
     public PlayState(GameStateManager gsm) {
         super(gsm);
         background = new Texture("spaceshort.jpg");
+
+
+
         player = new Player(30, 100);
         meteors = new Meteor();
         score = 0;

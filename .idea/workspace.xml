@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c44e7ef2-7aef-46b4-b5f9-d2383b1a1c83" name="Changes" comment="" />
+    <list default="true" id="c44e7ef2-7aef-46b4-b5f9-d2383b1a1c83" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/flappy-space.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/flappy-space.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappySpace/android/res/drawable-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappySpace/android/res/drawable-anydpi-v26/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappySpace/android/res/drawable-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/FlappySpace/android/res/drawable-hdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappySpace/android/res/drawable-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/FlappySpace/android/res/drawable-mdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappySpace/android/res/drawable-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/FlappySpace/android/res/drawable-xhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappySpace/android/res/drawable-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/FlappySpace/android/res/drawable-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappySpace/android/res/drawable-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/FlappySpace/android/res/drawable-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappySpace/assets/title.png" beforeDir="false" afterPath="$PROJECT_DIR$/FlappySpace/assets/title.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappySpace/core/src/com/programmisten/game/states/PlayState.java" beforeDir="false" afterPath="$PROJECT_DIR$/FlappySpace/core/src/com/programmisten/game/states/PlayState.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
