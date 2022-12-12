@@ -13,7 +13,7 @@ public class FlappySpace extends ApplicationAdapter {
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 800;
 
-	public static final String TITLE = "Flappy Bird";
+	public static final String TITLE = "FlappySpace";
 
 	private GameStateManager gsm;
 

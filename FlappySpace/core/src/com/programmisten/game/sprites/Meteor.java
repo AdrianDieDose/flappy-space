@@ -12,7 +12,7 @@ public class Meteor {
     private static final int topMeteorY = 250;
     private static final int botMeteorY = 50;
     private static final int startMeteorXPos = 250;
-    private static final int meteorSpeed = 3;
+    private static final double meteorSpeed = 3.5;
     private static final int meteorFluctuation = 70;
 
 
@@ -21,7 +21,7 @@ public class Meteor {
 
     public Meteor() {
         posTopMeteor = new Vector2(startMeteorXPos,(int)(Math.random() * meteorFluctuation) + topMeteorY);
-        posBotMeteor = new Vector2(startMeteorXPos,(int)(Math.random() * meteorFluctuation) + botMeteorY);
+        posBotMeteor = new Vector2(startMeteorXPos+50,(int)(Math.random() * meteorFluctuation) + botMeteorY);
         meteorBot = new Texture("meteor.png");
         meteorTop = new Texture("meteor.png");
 
@@ -55,9 +55,14 @@ public class Meteor {
         return meteorTop;
     }
 
+    public Rectangle getBoundsBot() {
+        return boundsBot;
+    }
+    public Rectangle getBoundsTop() {
+        return boundsTop;
+    }
+
     public boolean collides(Rectangle player){
         return  player.overlaps(boundsTop) || player.overlaps(boundsBot);
     }
-
-
 }
