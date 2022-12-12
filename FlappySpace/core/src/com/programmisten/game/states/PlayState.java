@@ -33,7 +33,7 @@ public class PlayState extends State {
     private Meteor meteors;
 
     private Stage stage;
-    private int score;
+    public int score;
     private Label lbl_Score;
     private Label.LabelStyle skin;
 
@@ -49,7 +49,7 @@ public class PlayState extends State {
 
         stage = new Stage(new StretchViewport(FlappySpace.WIDTH, FlappySpace.HEIGHT));
         skin = new Label.LabelStyle();
-        skin.font = new BitmapFont(Gdx.files.internal("skin.fnt"), Gdx.files.internal("skin.png"), false);
+        skin.font = new BitmapFont(Gdx.files.internal("skin2.fnt"), false);
 
 
         cam.setToOrtho(false, FlappySpace.WIDTH / 2, FlappySpace.HEIGHT / 2);
@@ -64,14 +64,14 @@ public class PlayState extends State {
     private void rebuildStage() {
         stage.clear();
         Stack stack = new Stack();
-        stack.setSize(FlappySpace.WIDTH, FlappySpace.HEIGHT);
+        stack.setSize(FlappySpace.WIDTH-30, FlappySpace.HEIGHT);
         stage.addActor(stack);
         stack.add(addScoreLabel());
     }
 
     private Actor addScoreLabel() {
         Table layer = new Table();
-        layer.top();
+        layer.top().left();
         lbl_Score = new Label("" + score, skin);
         layer.add(lbl_Score);
         return layer;
@@ -119,7 +119,7 @@ public class PlayState extends State {
 
         //On collide
         if (meteors.collides(player.getBounds())) {
-            gsm.set(new Endscreen(gsm));
+            gsm.set(new Endscreen(gsm, score));
         }
 
 
@@ -143,7 +143,9 @@ public class PlayState extends State {
 
     }
 
-
+    public int getScore() {
+        return score;
+    }
 
     @Override
     public void dispose() {
