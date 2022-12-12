@@ -21,10 +21,8 @@ public class PlayState extends State {
         super(gsm);
         background = new Texture("spaceshort.jpg");
         player = new Player(30,100);
-
         meteors = new Meteor();
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
-
     }
 
     @Override
