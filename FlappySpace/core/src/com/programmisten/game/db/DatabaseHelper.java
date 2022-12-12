@@ -1,5 +1,5 @@
 package com.programmisten.game.db;
-package android.database.sqlite;
+
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

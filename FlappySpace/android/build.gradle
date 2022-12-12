@@ -87,4 +87,8 @@ task run(type: Exec) {
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.programmisten.game/com.programmisten.game.AndroidLauncher'
 }
 
+dependencies {
+    implementation files('libs\\sqlite-jdbc-3.40.0.0.jar')
+}
+
 eclipse.project.name = appName + "-android"
