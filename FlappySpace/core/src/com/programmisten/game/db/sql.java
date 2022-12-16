@@ -14,7 +14,7 @@ public class sql {
         Connection conn;
         String[] result = new String[5];
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/flappySpace", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test2", "root", "");
 
 
             String extract = "SELECT * FROM spieler Order by score DESC;";
@@ -41,7 +41,7 @@ public class sql {
         Connection conn;
         int[] result = new int[5];
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/flappySpace", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test2", "root", "");
 
 
             String extract = "SELECT * FROM spieler Order by score DESC;";
@@ -71,7 +71,7 @@ public class sql {
 
         try
         {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/flappySpace","root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test2","root","");
 
             String search = "Select name where name = '" +search_name+ "';";
             String update = "UPDATE spiel SET "+score+" = "+score+" WHERE name = '"+search_name+"';";
