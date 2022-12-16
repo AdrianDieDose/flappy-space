@@ -14,13 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.programmisten.game.FlappySpace;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
+import com.programmisten.game.db.sql;
 
 
 public class Endscreen extends State{
@@ -32,12 +26,8 @@ public class Endscreen extends State{
 
     private Stage stage;
     private Label title;
-    private Label score1;
-    private Label score2;
-    private Label score3;
-    private Label score4;
-    private Label score5;
 
+    private Label[] scores_lbl = new Label[5];
 
     private Label.LabelStyle skin;
 
@@ -51,6 +41,9 @@ public class Endscreen extends State{
     private int score = 0;
     private String name = "Adrian";
     private Sound button;
+
+    sql conn = new sql();
+
 
 
 
@@ -77,26 +70,10 @@ public class Endscreen extends State{
 
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
         rebuildStage();
-        connectDb();
-    }
-
-
-    private void connectDb(){
-
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/test2", "root", "")) {
-            String sql = "SELECT * FROM scoreboard;";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            rs.next();
-            System.out.println(rs.getInt(1));
-
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
 
     }
+
+
 
     private void rebuildStage() {
         stage.clear();
@@ -109,24 +86,23 @@ public class Endscreen extends State{
     private Actor addScoreLabel() {
         Table layer = new Table();
         layer.setPosition(FlappySpace.WIDTH/5,FlappySpace.HEIGHT /4);
-        title = new Label(" RANK   SCORE   NAME", skin);
-        score1 = new Label("  NR1          "+ score + "        " + name, skin);
-        score2 = new Label("  NR2          "+ score + "        " + name, skin);
-        score3 = new Label("  NR3          "+ score + "        " + name, skin);
-        score4 = new Label("  NR4          "+ score + "        " + name, skin);
-        score5 = new Label("  NR5          "+ score + "        " + name, skin);
+        title = new Label("RANK   SCORE   NAME", skin);
+        int[] scores = new int[5];
+        String[] names = new String[5];
+
+        scores = conn.extraxtScores();
+        names = conn.extraxtNames();
 
         layer.add(title);
         layer.row();
-        layer.add(score1);
-        layer.row();
-        layer.add(score2);
-        layer.row();
-        layer.add(score3);
-        layer.row();
-        layer.add(score4);
-        layer.row();
-        layer.add(score5);
+        for(int i = 0; i < 5; i++)
+        {
+           scores_lbl[i]  = new Label("NR"+(i+1)+" | "+ scores[i] + " | " + names[i], skin);
+            layer.add(scores_lbl[i]);
+            layer.row();
+        }
+
+
         return layer;
     }
 
