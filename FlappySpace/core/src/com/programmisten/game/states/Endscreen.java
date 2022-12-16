@@ -11,15 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.programmisten.game.FlappySpace;
-import java.sql.*;
-import java.sql.DriverManager;
-
-import org.w3c.dom.Text;
-
-import java.awt.Panel;
 
 public class Endscreen extends State{
     private Texture background;
@@ -27,14 +20,12 @@ public class Endscreen extends State{
     private Texture homeBtn;
     private Texture muteBtn;
     private Texture unmuteBtn;
-    private Texture highscoreBtn;
 
 
 
 
     private Stage stage;
-    private Label score_gamelbl;
-    private Label score_dblbl;
+    private Label score_lbl;
     private Label.LabelStyle skin;
 
     private static final int  buttonScale = 25;
@@ -42,7 +33,6 @@ public class Endscreen extends State{
     private static final int BtnTextGap = 50;
 
     private Rectangle homeBtnBounds;
-    private Rectangle highscoreBtnBounds;
     private Rectangle muteBtnBounds;
 
     private int score = 0;
@@ -57,7 +47,6 @@ public class Endscreen extends State{
         homeBtn = new Texture("home.png");
         muteBtn = new Texture("mute.png");
         unmuteBtn = new Texture("unmute.png");
-        highscoreBtn = new Texture("highscore1.png");
 
 
 
@@ -66,7 +55,7 @@ public class Endscreen extends State{
 
         homeBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
         muteBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(muteBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, muteBtn.getWidth() / 2, homeBtn.getHeight() / 2);
-        highscoreBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(highscoreBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, highscoreBtn.getWidth() / 2, homeBtn.getHeight() / 2);
+
 
 
         stage = new Stage(new StretchViewport(FlappySpace.WIDTH, FlappySpace.HEIGHT));
@@ -92,10 +81,10 @@ public class Endscreen extends State{
         Table layer = new Table();
         layer.setPosition(FlappySpace.WIDTH/5,FlappySpace.HEIGHT /4);
 
-        score_gamelbl = new Label("Your Score:" + score, skin);
-        //score_dblbl = new Label(""+ getHighscore(), skin);
-        layer.add(score_gamelbl);
-        //layer.add(score_dblbl);
+
+        score_lbl = new Label(""+ score, skin);
+
+        layer.add(score_lbl);
         return layer;
     }
 
@@ -120,11 +109,8 @@ public class Endscreen extends State{
             /*if(muteBtnBounds.contains(tmp.x, tmp.y)){
                 //
                 dispose();
-            }
-            if(highscoreBtnBounds.contains(tmp.x, tmp.y)){
-                //gsm.set((gsm));
-                dispose();
             }*/
+
 
         }
 
@@ -152,7 +138,7 @@ public class Endscreen extends State{
     public void dispose() {
         homeBtn.dispose();
         background.dispose();
-        highscoreBtn.dispose();
+
         muteBtn.dispose();
         unmuteBtn.dispose();
 

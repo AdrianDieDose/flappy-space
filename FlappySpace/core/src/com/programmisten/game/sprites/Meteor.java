@@ -41,13 +41,6 @@ public class Meteor {
 
 
 
-    public Vector2 getBotMeteorPosition() {
-        return posTopMeteor;
-    }
-    public Vector2 getTopMeteorPosition() {
-        return posBotMeteor;
-    }
-
 
     public Texture getMeteorBotTexture() {
         return meteorBot;

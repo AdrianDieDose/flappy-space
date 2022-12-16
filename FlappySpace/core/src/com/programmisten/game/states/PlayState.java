@@ -4,26 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.programmisten.game.FlappySpace;
-import com.programmisten.game.sprites.Player;
 import com.programmisten.game.sprites.Meteor;
-
-import org.w3c.dom.Text;
-
-import java.awt.font.OpenType;
-
-import jdk.internal.org.jline.utils.Log;
-import sun.awt.image.PixelConverter;
+import com.programmisten.game.sprites.Player;
 
 public class PlayState extends State {
     private Player player;
@@ -106,7 +95,7 @@ public class PlayState extends State {
         player.update(dt);
         // On meteors off screen
 
-        if (meteors.getBotMeteorPosition().x <= -100) {
+        if (meteors.getPosBotMeteor().x <= -100) {
             score ++;
             meteors = new Meteor();
             rebuildStage();
@@ -137,8 +126,8 @@ public class PlayState extends State {
         sb.begin();
         sb.draw(background, 0, 0, FlappySpace.WIDTH / 2, FlappySpace.HEIGHT / 2);
         sb.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getTexture().getWidth() / 3, player.getTexture().getHeight() / 3);
-        sb.draw(meteors.getMeteorBotTexture(), meteors.getBotMeteorPosition().x, meteors.getBotMeteorPosition().y, meteors.getMeteorBotTexture().getWidth() * 2, meteors.getMeteorBotTexture().getHeight() * 2);
-        sb.draw(meteors.getMeteorTopTexture(), meteors.getTopMeteorPosition().x, meteors.getTopMeteorPosition().y, meteors.getMeteorTopTexture().getWidth() * 2, meteors.getMeteorTopTexture().getHeight() * 2);
+        sb.draw(meteors.getMeteorBotTexture(), meteors.getPosBotMeteor().x, meteors.getPosBotMeteor().y, meteors.getMeteorBotTexture().getWidth() * 2, meteors.getMeteorBotTexture().getHeight() * 2);
+        sb.draw(meteors.getMeteorTopTexture(), meteors.getPosTopMeteor().x, meteors.getPosTopMeteor().y, meteors.getMeteorTopTexture().getWidth() * 2, meteors.getMeteorTopTexture().getHeight() * 2);
         sb.end();
 
         stage.act(Gdx.graphics.getDeltaTime());
