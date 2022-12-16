@@ -1,6 +1,7 @@
 package com.programmisten.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,6 +27,8 @@ public class PlayState extends State {
     private Label lbl_Score;
     private Label.LabelStyle skin;
 
+    private Sound hit, fly, point;
+
 
 
 
@@ -44,7 +47,11 @@ public class PlayState extends State {
 
 
         cam.setToOrtho(false, FlappySpace.WIDTH / 2, FlappySpace.HEIGHT / 2);
-        
+
+        hit = Gdx.audio.newSound(Gdx.files.internal("hit.wav"));
+        point = Gdx.audio.newSound(Gdx.files.internal("point.wav"));
+        fly = Gdx.audio.newSound(Gdx.files.internal("fly.wav"));
+
         
         rebuildStage();
 
@@ -60,6 +67,10 @@ public class PlayState extends State {
         stack.add(addScoreLabel());
     }
 
+    private void PlaySound(Sound sound, float volume){
+        sound.play(volume);
+    }
+
     private Actor addScoreLabel() {
         Table layer = new Table();
         layer.top().left();
@@ -70,17 +81,12 @@ public class PlayState extends State {
 
     @Override
     protected void handleInput() {
-        // For tapping
-        /*
-        if (Gdx.input.justTouched()) {
-            player.setVelocity(jumpHeight);
-        }
-         */
 
         // For Holding
         if (Gdx.input.justTouched()) {
+            PlaySound(fly, 0.6f);
             player.jump();
-        }
+                   }
     }
 
     @Override
@@ -88,6 +94,7 @@ public class PlayState extends State {
         handleInput();
         //On ground hit
         if (player.getPosition().y <= FlappySpace.HEIGHT / 20) {
+            PlaySound(fly, 0.6f);
             player.jump();
         }
         meteors.update();
@@ -98,6 +105,8 @@ public class PlayState extends State {
         if (meteors.getPosBotMeteor().x <= -100) {
             score ++;
             meteors = new Meteor();
+            PlaySound(point, 0.4f);
+
             rebuildStage();
         }
 
@@ -111,6 +120,7 @@ public class PlayState extends State {
 
         //On collide
         if (meteors.collides(player.getBounds())) {
+            PlaySound(hit, 0.4f);
             gsm.set(new Endscreen(gsm, score));
         }
 

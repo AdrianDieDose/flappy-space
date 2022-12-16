@@ -1,6 +1,7 @@
 package com.programmisten.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,9 +22,6 @@ public class Endscreen extends State{
     private Texture muteBtn;
     private Texture unmuteBtn;
 
-
-
-
     private Stage stage;
     private Label score_lbl;
     private Label.LabelStyle skin;
@@ -36,6 +34,8 @@ public class Endscreen extends State{
     private Rectangle muteBtnBounds;
 
     private int score = 0;
+    private Sound button;
+
 
 
     public Endscreen(GameStateManager gsm, int highscore) {
@@ -49,20 +49,14 @@ public class Endscreen extends State{
         unmuteBtn = new Texture("unmute.png");
 
 
-
-
-
-
         homeBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
         muteBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(muteBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, muteBtn.getWidth() / 2, homeBtn.getHeight() / 2);
 
-
+        button = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
 
         stage = new Stage(new StretchViewport(FlappySpace.WIDTH, FlappySpace.HEIGHT));
         skin = new Label.LabelStyle();
         skin.font = new BitmapFont(Gdx.files.internal("skin.fnt"), false);
-
-
 
 
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
@@ -88,6 +82,10 @@ public class Endscreen extends State{
         return layer;
     }
 
+    private void PlaySound(Sound sound, float volume){
+        sound.play(volume);
+    }
+
     /*
     private String getHighscore() {
 
@@ -102,6 +100,7 @@ public class Endscreen extends State{
             cam.unproject(tmp);
             // Collides with play button
             if(homeBtnBounds.contains(tmp.x, tmp.y)){
+                PlaySound(button, 0.6f);
                 gsm.set(new MenuState(gsm));
                 dispose();
             }
