@@ -1,8 +1,11 @@
 package com.programmisten.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+
+import org.w3c.dom.Text;
 
 public class Player {
     private static final int GRAVITY = -10;
@@ -10,6 +13,7 @@ public class Player {
     private Vector2 velocity;
     private Texture player;
     private Rectangle bounds;
+    private Animation shipAnimation;
 
     private static final int jumpHeight = 250;
 
@@ -17,12 +21,14 @@ public class Player {
     public Player(int x, int y) {
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
-        player = new Texture("vehicle1.png");
-        bounds = new Rectangle(x, y, player.getWidth() / 4, player.getHeight() / 4);
+        player = new Texture("spritesheet.png");
+        shipAnimation = new Animation(new TextureRegion(player), 3, 0.5f);
+        bounds = new Rectangle(x, y, player.getWidth() / 12, player.getHeight() / 6);
 
     }
 
     public void update(float dt){
+        shipAnimation.update(dt);
         velocity.add(0, GRAVITY);
         velocity.scl(dt);
         position.add(0,velocity.y);
@@ -35,8 +41,8 @@ public class Player {
         return position;
     }
 
-    public Texture getTexture() {
-        return player;
+    public TextureRegion getTexture() {
+        return shipAnimation.getFrame();
     }
 
     public void jump(){

@@ -37,6 +37,8 @@ public class HighscoreState extends State{
 
     private Rectangle homeBtnBounds;
     private Rectangle muteBtnBounds;
+    private Texture highscoreBtn;
+    private Rectangle highscoreBtnBounds;
 
     private int score = 0;
     private String name = "Adrian";
@@ -56,10 +58,12 @@ public class HighscoreState extends State{
         homeBtn = new Texture("home.png");
         muteBtn = new Texture("mute.png");
         unmuteBtn = new Texture("unmute.png");
+        highscoreBtn = new Texture("highscore1pressed.png");
 
 
         homeBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
         muteBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(muteBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, muteBtn.getWidth() / 2, homeBtn.getHeight() / 2);
+        highscoreBtnBounds = new Rectangle(0, FlappySpace.HEIGHT /2 - highscoreBtn.getHeight(), highscoreBtn.getWidth(), highscoreBtn.getHeight());
 
         button = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
 
@@ -129,6 +133,12 @@ public class HighscoreState extends State{
                 dispose();
             }
 
+            if(highscoreBtnBounds.contains(tmp.x, tmp.y)){
+                PlaySound(button, 0.6f);
+                gsm.set(new Endscreen(gsm, score));
+                dispose();
+            }
+
             /*if(muteBtnBounds.contains(tmp.x, tmp.y)){
                 //
                 dispose();
@@ -150,6 +160,8 @@ public class HighscoreState extends State{
         sb.begin();
         sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
         sb.draw(homeBtn,(FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
+        sb.draw(highscoreBtn,0, FlappySpace.HEIGHT /2 - highscoreBtn.getHeight(), highscoreBtn.getWidth(), highscoreBtn.getHeight() );
+
         sb.end();
 
         stage.act(Gdx.graphics.getDeltaTime());

@@ -27,7 +27,7 @@ public class PlayState extends State {
     private Label lbl_Score;
     private Label.LabelStyle skin;
 
-    private Sound hit, fly, point;
+    private Sound hit, fly, point, booster, thrust, crash;
 
 
 
@@ -51,6 +51,9 @@ public class PlayState extends State {
         hit = Gdx.audio.newSound(Gdx.files.internal("hit.wav"));
         point = Gdx.audio.newSound(Gdx.files.internal("point.wav"));
         fly = Gdx.audio.newSound(Gdx.files.internal("fly.wav"));
+        booster = Gdx.audio.newSound(Gdx.files.internal("booster.wav"));
+        thrust = Gdx.audio.newSound(Gdx.files.internal("thrust.wav"));
+        crash = Gdx.audio.newSound(Gdx.files.internal("crash.wav"));
 
         
         rebuildStage();
@@ -70,6 +73,12 @@ public class PlayState extends State {
     private void PlaySound(Sound sound, float volume){
         sound.play(volume);
     }
+    private void StopSound(Sound sound){
+        sound.stop();
+    }
+    private void LoopSound(Sound sound, float volume){
+        sound.loop(volume);
+    }
 
     private Actor addScoreLabel() {
         Table layer = new Table();
@@ -84,9 +93,13 @@ public class PlayState extends State {
 
         // For Holding
         if (Gdx.input.justTouched()) {
-            PlaySound(fly, 0.6f);
+            StopSound(thrust);
+            StopSound(booster);
+            PlaySound(booster, 0.4f);
+            PlaySound(thrust, 0.4f);
             player.jump();
-                   }
+        }
+
     }
 
     @Override
@@ -94,15 +107,15 @@ public class PlayState extends State {
         handleInput();
         //On ground hit
         if (player.getPosition().y <= FlappySpace.HEIGHT / 20) {
-            PlaySound(fly, 0.6f);
             player.jump();
+            PlaySound(crash, 0.8f);
         }
         meteors.update();
 
         player.update(dt);
         // On meteors off screen
 
-        if (meteors.getPosBotMeteor().x <= -100) {
+        if (meteors.getPosBotMeteor().x <= -80) {
             score ++;
             meteors = new Meteor();
             PlaySound(point, 0.4f);
@@ -110,9 +123,8 @@ public class PlayState extends State {
             rebuildStage();
         }
 
-        if(cam.position.x - cam.viewportWidth * 0.5f > meteors.getPosTopMeteor().x + meteors.getBoundsTop().getWidth()*2){
 
-        }
+
 
 
 
@@ -120,14 +132,15 @@ public class PlayState extends State {
 
         //On collide
         if (meteors.collides(player.getBounds())) {
+            StopSound(thrust);
+            StopSound(booster);
             PlaySound(hit, 0.4f);
+
             gsm.set(new Endscreen(gsm, score));
         }
 
 
-        //score
-        if (player.getPosition().x == meteors.getPosBotMeteor().x || player.getPosition().x == meteors.getPosTopMeteor().x) {
-        }
+
     }
 
     @Override
@@ -135,7 +148,7 @@ public class PlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0, 0, FlappySpace.WIDTH / 2, FlappySpace.HEIGHT / 2);
-        sb.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getTexture().getWidth() / 3, player.getTexture().getHeight() / 3);
+        sb.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getTexture().getRegionWidth() / 3, player.getTexture().getRegionHeight() / 3);
         sb.draw(meteors.getMeteorBotTexture(), meteors.getPosBotMeteor().x, meteors.getPosBotMeteor().y, meteors.getMeteorBotTexture().getWidth() * 2, meteors.getMeteorBotTexture().getHeight() * 2);
         sb.draw(meteors.getMeteorTopTexture(), meteors.getPosTopMeteor().x, meteors.getPosTopMeteor().y, meteors.getMeteorTopTexture().getWidth() * 2, meteors.getMeteorTopTexture().getHeight() * 2);
         sb.end();

@@ -27,8 +27,8 @@ public class Endscreen extends State{
 
 
     private Stage stage;
-    private Label title;
-    private Label score_lbl;
+    private Label title, score_lbl, lose;
+
 
 
 
@@ -92,13 +92,15 @@ public class Endscreen extends State{
         Table layer = new Table();
         layer.setPosition(FlappySpace.WIDTH/5,FlappySpace.HEIGHT /4);
         title = new Label("  Your Score:", skin);
+        lose = new Label("  YOU DIED", skin);
         score_lbl = new Label("  "+score, skin);
         // Add current score and input
 
 
 
 
-
+        layer.add(lose);
+        layer.row();
         layer.add(title);
         layer.row();
         layer.add(score_lbl);

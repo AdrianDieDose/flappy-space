@@ -2,6 +2,7 @@ package com.programmisten.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,6 +21,8 @@ public class FlappySpace extends ApplicationAdapter {
 	private SpriteBatch batch;
 	Texture img;
 
+	private Sound warped;
+
 
 	
 	@Override
@@ -27,8 +30,10 @@ public class FlappySpace extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		img = new Texture("badlogic.jpg");
+		warped = Gdx.audio.newSound(Gdx.files.internal("warped.wav"));
 		ScreenUtils.clear(1, 0, 0, 1);
 		gsm.push(new MenuState(gsm));
+		LoopSound(warped, 0.6f);
 	}
 
 	@Override
@@ -46,9 +51,17 @@ public class FlappySpace extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
+		StopSound(warped);
 		/*
 		batch.dispose();
 		img.dispose();
 		 */
+	}
+
+	private void LoopSound(Sound sound, float volume){
+		sound.loop(volume);
+	}
+	private void StopSound(Sound sound){
+		sound.stop();
 	}
 }
