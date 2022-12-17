@@ -4,6 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
 
+// Im GSM wird die Datenstruktur Stack genutzt um die verschiedenen Screens/States zu zu speichern.
+// Diese Klasse implementiert Methoden um:
+// Ein state mit push in den stack zu speichern.
+// Mit pop diesen wieder zu entfernt
+// Set um diesen zu setztn.
 
 public class GameStateManager {
     private Stack<State> states;

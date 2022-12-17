@@ -111,10 +111,9 @@ public class PlayState extends State {
             PlaySound(crash, 0.8f);
         }
         meteors.update();
-
         player.update(dt);
-        // On meteors off screen
 
+        // On meteors off screen
         if (meteors.getPosBotMeteor().x <= -80) {
             score ++;
             meteors = new Meteor();
@@ -122,14 +121,6 @@ public class PlayState extends State {
 
             rebuildStage();
         }
-
-
-
-
-
-
-
-
         //On collide
         if (meteors.collides(player.getBounds())) {
             StopSound(thrust);
@@ -138,9 +129,6 @@ public class PlayState extends State {
 
             gsm.set(new Endscreen(gsm, score));
         }
-
-
-
     }
 
     @Override

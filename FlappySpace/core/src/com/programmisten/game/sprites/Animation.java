@@ -3,6 +3,8 @@ package com.programmisten.game.sprites;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
+// Diese Klasse kümmert sich um die Spritesheet animation des Spielers.
+
 public class Animation {
     private Array<TextureRegion> frames;
     private float maxFrameTime;

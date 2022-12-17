@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.programmisten.game.states.GameStateManager;
 import com.programmisten.game.states.MenuState;
+// Das ist so zusagen die Main methode um das Spiel zu initialisieren.
+// Hier wird zum Beispiel die Startauflösung gesetzt etc..
 
 public class FlappySpace extends ApplicationAdapter {
 	public static final int WIDTH = 480;
