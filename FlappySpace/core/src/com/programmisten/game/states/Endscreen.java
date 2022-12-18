@@ -1,6 +1,7 @@
 package com.programmisten.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,11 +11,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.programmisten.game.FlappySpace;
 import com.programmisten.game.db.sql;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 
 public class Endscreen extends State{
@@ -33,6 +37,8 @@ public class Endscreen extends State{
 
 
     private Label.LabelStyle skin;
+    private InputListener inputListener;
+
 
     private static final int  buttonScale = 25;
     private static final int  buttonMargin = 5;
@@ -43,11 +49,11 @@ public class Endscreen extends State{
     private Rectangle highscoreBtnBounds;
 
     private int score = 0;
-    private String name = "Adrian";
+    private String userName = "USER";
+
     private Sound button;
-
-
-
+    private TextField spielerName;
+    private Skin skin2;
 
 
     public Endscreen(GameStateManager gsm, int highscore) {
@@ -72,9 +78,18 @@ public class Endscreen extends State{
         skin = new Label.LabelStyle();
         skin.font = new BitmapFont(Gdx.files.internal("skin.fnt"), false);
 
+        //skin2 = new Skin();
+
+
 
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
         rebuildStage();
+        inputListener = new InputListener();
+
+        if(userName == "USER"){
+            Gdx.input.getTextInput(inputListener, "Congratulations!!!                                Enter your name for Ranking:", "USER", "Hint");
+
+        }
 
     }
 
@@ -91,9 +106,10 @@ public class Endscreen extends State{
     private Actor addScoreLabel() {
         Table layer = new Table();
         layer.setPosition(FlappySpace.WIDTH/5,FlappySpace.HEIGHT /4);
-        title = new Label("  Your Score:", skin);
-        lose = new Label("  YOU DIED", skin);
+        title = new Label("  Your Score: ", skin);
+        lose = new Label("  "+ userName +" DIED", skin);
         score_lbl = new Label("  "+score, skin);
+        //spielerName = new TextField("", skin);
         // Add current score and input
 
 
@@ -104,6 +120,8 @@ public class Endscreen extends State{
         layer.add(title);
         layer.row();
         layer.add(score_lbl);
+        layer.row();
+        //layer.add(spielerName);
 
 
 
@@ -139,6 +157,8 @@ public class Endscreen extends State{
                 dispose();
             }
 
+
+
             /*if(muteBtnBounds.contains(tmp.x, tmp.y)){
                 //
                 dispose();
@@ -152,6 +172,8 @@ public class Endscreen extends State{
     @Override
     public void update(float dt)  {
         handleInput();
+        userName = inputListener.getText();
+        rebuildStage();
     }
 
     @Override
