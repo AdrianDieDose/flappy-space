@@ -62,7 +62,7 @@ public class sql {
         return result;
     }
 
-    public void UpdateScore(String search_name, int score)
+    public boolean UpdateScore(String search_name, int score)
     {
         PreparedStatement pstmt;
         Statement stmt;
@@ -74,14 +74,14 @@ public class sql {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test2","root","");
 
             String search = "Select name where name = '" +search_name+ "';";
-            String update = "UPDATE spiel SET "+score+" = "+score+" WHERE name = '"+search_name+"';";
-            String insert = "Insert into spieler (name, score) Values ("+search_name+","+score+");";
+            String update = "UPDATE spiel SET "+score+" = "+score+" WHERE spieler = '"+search_name+"';";
+            String insert = "Insert into spieler (spieler, score) Values ("+search_name+","+score+");";
 
             pstmt = conn.prepareStatement(search);
             rs = pstmt.executeQuery();
 
             rs.next();
-            String name = rs.getString("name");
+            String name = rs.getString("spieler");
 
             if(search_name.equals(name))
             {
@@ -98,12 +98,13 @@ public class sql {
 
             conn.close();
             stmt.close();
+            return true;
             //JOptionPane.showMessageDialog(null, "Speicherung Erfolgreich", "Meldung", JOptionPane.INFORMATION_MESSAGE);
 
         }
         catch(Exception e)
         {
-
+                return false;
         }
 
     }
