@@ -128,7 +128,7 @@ public class HighscoreState extends State{
 
             if(highscoreBtnBounds.contains(tmp.x, tmp.y)){
                 PlaySound(button, 0.6f);
-                gsm.set(new Endscreen(gsm, score, user,false));
+                gsm.set(new Endscreen(gsm, score, user));
                 System.out.println(score+user+false);
 
                 dispose();

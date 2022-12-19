@@ -1,7 +1,6 @@
 package com.programmisten.game.states;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 public class InputListener extends ApplicationAdapter implements Input.TextInputListener {
@@ -22,5 +21,9 @@ public class InputListener extends ApplicationAdapter implements Input.TextInput
 
     public String getText(){
         return this.savedText;
+    }
+
+    public void setSavedText(String text){
+        savedText = text;
     }
 }

@@ -95,18 +95,10 @@ public class sql {
                 stmt = conn.createStatement();
                 stmt.executeUpdate(update);
             }
-            else
-            {
-                System.out.println(insert+1);
-                stmt = conn.createStatement();
-                stmt.executeUpdate(insert);
-                System.out.println(insert+2);
-            }
 
 
 
             conn.close();
-            stmt.close();
             return true;
 
         }
@@ -132,16 +124,18 @@ public class sql {
             String insert = "INSERT INTO spieler (spieler, score) VALUES ('"+search_name+"',"+score+");";
             System.out.println(insert);
 
-
+            if(search_name != null) {
                 System.out.println(score);
                 stmt = conn.createStatement();
                 stmt.executeUpdate(insert);
+                stmt.close();
+            }
 
 
 
 
             conn.close();
-            stmt.close();
+
             return true;
 
         }

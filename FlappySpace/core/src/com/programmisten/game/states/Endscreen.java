@@ -10,10 +10,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.programmisten.game.FlappySpace;
 import com.programmisten.game.db.sql;
@@ -21,10 +19,9 @@ import com.programmisten.game.db.sql;
 
 public class Endscreen extends State{
     private Texture background;
-    private Texture gameOver;
+
     private Texture homeBtn;
-    private Texture muteBtn;
-    private Texture unmuteBtn;
+    private Texture saveBtn;
     private Texture highscoreBtn;
 
 
@@ -43,7 +40,7 @@ public class Endscreen extends State{
     private static final int BtnTextGap = 130;
 
     private Rectangle homeBtnBounds;
-    private Rectangle muteBtnBounds;
+    private Rectangle saveBtnBounds;
     private Rectangle highscoreBtnBounds;
 
     private int score = 0;
@@ -54,36 +51,32 @@ public class Endscreen extends State{
 
 
     private Sound button;
-    private TextField spielerName;
-    private Skin skin2;
 
     private boolean il;
 
 
-    public Endscreen(GameStateManager gsm, int highscore, String user,boolean wert) {
+    public Endscreen(GameStateManager gsm, int highscore, String user) {
         super(gsm);
         score = highscore;
 
+        inputListener = new InputListener();
+        inputListener.setSavedText(user);
 
-        userName = user;
 
 
-        il = wert;
 
-        System.out.println(score+userName+il);
 
 
 
 
         background = new Texture("spaceshort.jpg");
         homeBtn = new Texture("home.png");
-        muteBtn = new Texture("mute.png");
-        unmuteBtn = new Texture("unmute.png");
+        saveBtn = new Texture("mute.png");
         highscoreBtn = new Texture("highscore1.png");
 
 
         homeBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
-        muteBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(muteBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, muteBtn.getWidth() / 2, homeBtn.getHeight() / 2);
+        saveBtnBounds =  new Rectangle(210,FlappySpace.HEIGHT /2 - saveBtn.getHeight(), saveBtn.getWidth(), saveBtn.getHeight());
         highscoreBtnBounds = new Rectangle(0, FlappySpace.HEIGHT /2 - highscoreBtn.getHeight(), highscoreBtn.getWidth(), highscoreBtn.getHeight());
 
         button = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
@@ -98,12 +91,8 @@ public class Endscreen extends State{
 
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
         rebuildStage();
-        inputListener = new InputListener();
 
-        if(il == true){
-            Gdx.input.getTextInput(inputListener, "Congratulations!!!\nEnter your name for Ranking:", "", "Hint");
 
-        }
 
 
 
@@ -165,20 +154,25 @@ public class Endscreen extends State{
             cam.unproject(tmp);
             // Collides with home button
             if(homeBtnBounds.contains(tmp.x, tmp.y)){
-                conn.UpdateScore(userName, score);
-                System.out.println(userName+" "+score);
                 PlaySound(button, 0.6f);
                 gsm.set(new MenuState(gsm));
                 dispose();
             }
             // Collides with highscore button
             if(highscoreBtnBounds.contains(tmp.x, tmp.y)){
-                conn.UpdateScore(userName, score);
-                System.out.println(userName+" "+score);
                 PlaySound(button, 0.6f);
                 gsm.set(new HighscoreState(gsm, userName, score));
                 dispose();
             }
+            if(saveBtnBounds.contains(tmp.x, tmp.y)){
+                if(userName == "USER") {
+                    Gdx.input.getTextInput(inputListener, "Congratulations!!!\nEnter your name for Ranking:", "", "");
+                    conn.UpdateScore(inputListener.getText(), score);
+                }
+                PlaySound(button, 0.6f);
+            }
+
+
 
 
 
@@ -192,9 +186,7 @@ public class Endscreen extends State{
     @Override
     public void update(float dt)  {
         handleInput();
-        if(il == true) {
-            userName = inputListener.getText();
-        }
+        userName = inputListener.getText();
         rebuildStage();
     }
 
@@ -205,6 +197,7 @@ public class Endscreen extends State{
         sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
         sb.draw(homeBtn,(FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
         sb.draw(highscoreBtn,0, FlappySpace.HEIGHT /2 - highscoreBtn.getHeight(), highscoreBtn.getWidth(), highscoreBtn.getHeight() );
+        sb.draw(saveBtn, 210, FlappySpace.HEIGHT /2 - saveBtn.getHeight(),saveBtn.getWidth(), saveBtn.getHeight());
         sb.end();
 
         stage.act(Gdx.graphics.getDeltaTime());
@@ -217,8 +210,7 @@ public class Endscreen extends State{
         homeBtn.dispose();
         background.dispose();
 
-        muteBtn.dispose();
-        unmuteBtn.dispose();
+        saveBtn.dispose();
 
 
 

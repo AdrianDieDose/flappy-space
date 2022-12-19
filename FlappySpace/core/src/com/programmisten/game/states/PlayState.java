@@ -127,7 +127,7 @@ public class PlayState extends State {
             StopSound(booster);
             PlaySound(hit, 0.4f);
 
-            gsm.set(new Endscreen(gsm, score, "USER",true));
+            gsm.set(new Endscreen(gsm, score, "USER"));
         }
     }
 
