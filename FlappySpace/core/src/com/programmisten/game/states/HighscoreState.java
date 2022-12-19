@@ -12,50 +12,46 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.programmisten.game.FlappySpace;
 import com.programmisten.game.db.sql;
 
 
 public class HighscoreState extends State{
-    private Texture background;
-    private Texture gameOver;
-    private Texture homeBtn;
-    private Texture muteBtn;
-    private Texture unmuteBtn;
+    private final Texture background;
+    private final Texture homeBtn;
+    private final Texture muteBtn;
+    private final Texture unmuteBtn;
 
 
-    private Stage stage;
-    private Label title;
+    private final Stage stage;
 
-    private Label[] scores_lbl = new Label[5];
+    private final Label[] scores_lbl = new Label[5];
 
-    private Label.LabelStyle skin;
+    private final Label.LabelStyle skin;
 
-    private static final int  buttonScale = 25;
-    private static final int  buttonMargin = 5;
     private static final int BtnTextGap = 130;
 
-    private Rectangle homeBtnBounds;
-    private Rectangle muteBtnBounds;
-    private Texture highscoreBtn;
-    private Rectangle highscoreBtnBounds;
+    private final Rectangle homeBtnBounds;
+    private final Texture highscoreBtn;
+    private final Rectangle highscoreBtnBounds;
 
 
-    private int score = 0;
-    private String name = "Adrian";
+    private int score;
     private Sound button;
+    private String user;
+
 
     sql conn = new sql();
 
 
 
 
-    public HighscoreState(GameStateManager gsm, int highscore) {
+    public HighscoreState(GameStateManager gsm, String username, int score1) {
         super(gsm);
-        score = highscore;
-        System.out.println(highscore);
+        user = username;
+
+        score = score1;
 
         background = new Texture("spaceshort.jpg");
         homeBtn = new Texture("home.png");
@@ -65,7 +61,6 @@ public class HighscoreState extends State{
 
 
         homeBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
-        muteBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(muteBtn.getWidth()/4),FlappySpace.HEIGHT /4 - BtnTextGap, muteBtn.getWidth() / 2, homeBtn.getHeight() / 2);
         highscoreBtnBounds = new Rectangle(0, FlappySpace.HEIGHT /2 - highscoreBtn.getHeight(), highscoreBtn.getWidth(), highscoreBtn.getHeight());
 
         button = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
@@ -93,7 +88,7 @@ public class HighscoreState extends State{
     private Actor addScoreLabel() {
         Table layer = new Table();
         layer.setPosition(FlappySpace.WIDTH/5,FlappySpace.HEIGHT /4);
-        title = new Label(" RANK   SCORE   NAME", skin);
+        Label title = new Label(" RANK   SCORE   NAME", skin);
         int[] scores = new int[5];
         String[] names = new String[5];
 
@@ -117,11 +112,6 @@ public class HighscoreState extends State{
         sound.play(volume);
     }
 
-    /*
-    private String getHighscore() {
-
-    }
-    */
 
     @Override
     protected void handleInput() {
@@ -138,14 +128,12 @@ public class HighscoreState extends State{
 
             if(highscoreBtnBounds.contains(tmp.x, tmp.y)){
                 PlaySound(button, 0.6f);
-                gsm.set(new Endscreen(gsm, score));
+                gsm.set(new Endscreen(gsm, score, user,false));
+                System.out.println(score+user+false);
+
                 dispose();
             }
 
-            /*if(muteBtnBounds.contains(tmp.x, tmp.y)){
-                //
-                dispose();
-            }*/
 
 
         }

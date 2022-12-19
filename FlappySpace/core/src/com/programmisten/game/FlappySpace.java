@@ -43,21 +43,13 @@ public class FlappySpace extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render(batch);
-		/*
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
 
-		 */
 	}
 	
 	@Override
 	public void dispose () {
 		StopSound(warped);
-		/*
-		batch.dispose();
-		img.dispose();
-		 */
+
 	}
 
 	private void LoopSound(Sound sound, float volume){

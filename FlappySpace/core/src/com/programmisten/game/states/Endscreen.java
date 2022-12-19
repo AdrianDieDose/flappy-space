@@ -1,7 +1,6 @@
 package com.programmisten.game.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,11 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.programmisten.game.FlappySpace;
 import com.programmisten.game.db.sql;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 
 public class Endscreen extends State{
@@ -49,17 +47,33 @@ public class Endscreen extends State{
     private Rectangle highscoreBtnBounds;
 
     private int score = 0;
-    private String userName = "USER";
+
+    private String userName;
+
+    sql conn = new sql();
+
 
     private Sound button;
     private TextField spielerName;
     private Skin skin2;
 
+    private boolean il;
 
-    public Endscreen(GameStateManager gsm, int highscore) {
+
+    public Endscreen(GameStateManager gsm, int highscore, String user,boolean wert) {
         super(gsm);
         score = highscore;
-        System.out.println(highscore);
+
+
+        userName = user;
+
+
+        il = wert;
+
+        System.out.println(score+userName+il);
+
+
+
 
         background = new Texture("spaceshort.jpg");
         homeBtn = new Texture("home.png");
@@ -86,10 +100,12 @@ public class Endscreen extends State{
         rebuildStage();
         inputListener = new InputListener();
 
-        if(userName == "USER"){
-            Gdx.input.getTextInput(inputListener, "Congratulations!!!                                Enter your name for Ranking:", "USER", "Hint");
+        if(il == true){
+            Gdx.input.getTextInput(inputListener, "Congratulations!!!\nEnter your name for Ranking:", "", "Hint");
 
         }
+
+
 
     }
 
@@ -109,6 +125,9 @@ public class Endscreen extends State{
         title = new Label("  Your Score: ", skin);
         lose = new Label("  "+ userName +" DIED", skin);
         score_lbl = new Label("  "+score, skin);
+
+
+
         //spielerName = new TextField("", skin);
         // Add current score and input
 
@@ -146,23 +165,24 @@ public class Endscreen extends State{
             cam.unproject(tmp);
             // Collides with home button
             if(homeBtnBounds.contains(tmp.x, tmp.y)){
+                conn.UpdateScore(userName, score);
+                System.out.println(userName+" "+score);
                 PlaySound(button, 0.6f);
                 gsm.set(new MenuState(gsm));
                 dispose();
             }
             // Collides with highscore button
             if(highscoreBtnBounds.contains(tmp.x, tmp.y)){
+                conn.UpdateScore(userName, score);
+                System.out.println(userName+" "+score);
                 PlaySound(button, 0.6f);
-                gsm.set(new HighscoreState(gsm, score));
+                gsm.set(new HighscoreState(gsm, userName, score));
                 dispose();
             }
 
 
 
-            /*if(muteBtnBounds.contains(tmp.x, tmp.y)){
-                //
-                dispose();
-            }*/
+
 
 
         }
@@ -172,7 +192,9 @@ public class Endscreen extends State{
     @Override
     public void update(float dt)  {
         handleInput();
-        userName = inputListener.getText();
+        if(il == true) {
+            userName = inputListener.getText();
+        }
         rebuildStage();
     }
 
