@@ -99,7 +99,7 @@ public class HighscoreState extends State{
         layer.row();
         for(int i = 0; i < 5; i++)
         {
-           scores_lbl[i]  = new Label(" NR"+(i+1)+" | "+ scores[i] + " | " + names[i], skin);
+           scores_lbl[i]  = new Label((i+1)+". Platz | "+ scores[i] + " | " + names[i], skin);
             layer.add(scores_lbl[i]);
             layer.row();
         }
@@ -129,7 +129,7 @@ public class HighscoreState extends State{
             if(highscoreBtnBounds.contains(tmp.x, tmp.y)){
                 PlaySound(button, 0.6f);
                 gsm.set(new Endscreen(gsm, score, user));
-                System.out.println(score+user+false);
+
 
                 dispose();
             }

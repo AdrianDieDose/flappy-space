@@ -26,7 +26,10 @@ public class Endscreen extends State{
 
 
     private Stage stage;
-    private Label title, score_lbl, lose;
+    private Label exception;
+
+    private int score;
+
 
 
 
@@ -35,15 +38,12 @@ public class Endscreen extends State{
     private InputListener inputListener;
 
 
-    private static final int  buttonScale = 25;
-    private static final int  buttonMargin = 5;
     private static final int BtnTextGap = 130;
 
     private Rectangle homeBtnBounds;
     private Rectangle saveBtnBounds;
     private Rectangle highscoreBtnBounds;
 
-    private int score = 0;
 
     private String userName;
 
@@ -52,7 +52,6 @@ public class Endscreen extends State{
 
     private Sound button;
 
-    private boolean il;
 
 
     public Endscreen(GameStateManager gsm, int highscore, String user) {
@@ -61,6 +60,10 @@ public class Endscreen extends State{
 
         inputListener = new InputListener();
         inputListener.setSavedText(user);
+
+        conn.start();
+
+
 
 
 
@@ -75,7 +78,7 @@ public class Endscreen extends State{
         highscoreBtn = new Texture("highscore1.png");
 
 
-        homeBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
+        homeBtnBounds =  new Rectangle((FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /3 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
         saveBtnBounds =  new Rectangle(210,FlappySpace.HEIGHT /2 - saveBtn.getHeight(), saveBtn.getWidth(), saveBtn.getHeight());
         highscoreBtnBounds = new Rectangle(0, FlappySpace.HEIGHT /2 - highscoreBtn.getHeight(), highscoreBtn.getWidth(), highscoreBtn.getHeight());
 
@@ -85,6 +88,7 @@ public class Endscreen extends State{
         skin = new Label.LabelStyle();
         skin.font = new BitmapFont(Gdx.files.internal("skin.fnt"), false);
 
+        exception = new Label("", skin);
         //skin2 = new Skin();
 
 
@@ -108,43 +112,51 @@ public class Endscreen extends State{
         stack.add(addScoreLabel());
     }
 
+
+
+
+
+
     private Actor addScoreLabel() {
         Table layer = new Table();
-        layer.setPosition(FlappySpace.WIDTH/5,FlappySpace.HEIGHT /4);
-        title = new Label("  Your Score: ", skin);
-        lose = new Label("  "+ userName +" DIED", skin);
-        score_lbl = new Label("  "+score, skin);
+        layer.center().top();
+
+
+        Label title = new Label("  Your Score: ", skin);
+        Label lose = new Label("  " + userName + " DIED", skin);
+        Label score_lbl = new Label("  " + score, skin);
+        Label empty = new Label("", skin);
 
 
 
-        //spielerName = new TextField("", skin);
-        // Add current score and input
-
-
-
-
+        layer.add(empty);
+        layer.row();
+        layer.add(empty);
+        layer.row();
+        layer.add(empty);
+        layer.row();
+        layer.add(exception);
+        layer.row();
+        layer.add(empty);
+        layer.row();
+        layer.add(empty);
+        layer.row();
         layer.add(lose);
         layer.row();
         layer.add(title);
         layer.row();
         layer.add(score_lbl);
         layer.row();
-        //layer.add(spielerName);
-
-
 
         return layer;
     }
+
 
     private void PlaySound(Sound sound, float volume){
         sound.play(volume);
     }
 
-    /*
-    private String getHighscore() {
 
-    }
-    */
 
     @Override
     protected void handleInput() {
@@ -153,34 +165,42 @@ public class Endscreen extends State{
             Vector3 tmp = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(tmp);
             // Collides with home button
-            if(homeBtnBounds.contains(tmp.x, tmp.y)){
+            if (homeBtnBounds.contains(tmp.x, tmp.y)) {
                 PlaySound(button, 0.6f);
                 gsm.set(new MenuState(gsm));
                 dispose();
             }
             // Collides with highscore button
-            if(highscoreBtnBounds.contains(tmp.x, tmp.y)){
+            if (highscoreBtnBounds.contains(tmp.x, tmp.y)) {
                 PlaySound(button, 0.6f);
-                gsm.set(new HighscoreState(gsm, userName, score));
-                dispose();
+                if(conn.getConnectionInfo()){
+                    gsm.set(new HighscoreState(gsm, userName, score));
+                    exception.setText("");
+                    dispose();
+
+                } else{
+                    exception.setText("  Connection\n      Failed  ");
             }
-            if(saveBtnBounds.contains(tmp.x, tmp.y)){
-                if(userName == "USER") {
-                    Gdx.input.getTextInput(inputListener, "Congratulations!!!\nEnter your name for Ranking:", "", "");
-                    conn.UpdateScore(inputListener.getText(), score);
+            }
+            if (saveBtnBounds.contains(tmp.x, tmp.y)) {
+                if (userName.equals("USER")) {
+
+                   if(conn.getConnectionInfo()){
+                        inputListener.setScore(score);
+                        exception.setText("");
+                        Gdx.input.getTextInput(inputListener, "Congratulations!!!\nEnter your name for Ranking:", "", "");
+
+                    }
+                   else{
+                       exception.setText("  Connection\n      Failed  ");
+                    }
+                    PlaySound(button, 0.6f);
                 }
-                PlaySound(button, 0.6f);
+
+
             }
-
-
-
-
-
-
-
 
         }
-
     }
 
     @Override
@@ -195,9 +215,13 @@ public class Endscreen extends State{
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background,0,0, FlappySpace.WIDTH / 2,FlappySpace.HEIGHT / 2);
-        sb.draw(homeBtn,(FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /4 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
+
+
+        sb.draw(homeBtn,(FlappySpace.WIDTH/4)-(homeBtn.getWidth()/2),FlappySpace.HEIGHT /3 - BtnTextGap, homeBtn.getWidth(), homeBtn.getHeight());
         sb.draw(highscoreBtn,0, FlappySpace.HEIGHT /2 - highscoreBtn.getHeight(), highscoreBtn.getWidth(), highscoreBtn.getHeight() );
-        sb.draw(saveBtn, 210, FlappySpace.HEIGHT /2 - saveBtn.getHeight(),saveBtn.getWidth(), saveBtn.getHeight());
+        if (userName == "USER") {
+            sb.draw(saveBtn, 210, FlappySpace.HEIGHT / 2 - saveBtn.getHeight(), saveBtn.getWidth(), saveBtn.getHeight());
+        }
         sb.end();
 
         stage.act(Gdx.graphics.getDeltaTime());
