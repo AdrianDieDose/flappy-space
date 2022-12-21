@@ -11,13 +11,25 @@ public class sql extends Thread{
 
     private boolean connectionInfo;
 
-    public void run(){
+    public void run(){ // wird als 2. Instanz parallel ausgeführt
         while (true) {
             test();
         }
     }
 
-    public String[]  extraxtNames() {
+    public void test(){ //prüft ob eine DB Verbindung möglich ist und schreibt true oder false in "connectionInfo"
+        Connection conn;
+
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://192.168.137.1:3306/flappySpace", "user2", "123456789");
+            conn.close();
+            connectionInfo = true;
+        } catch (SQLException e) {
+            connectionInfo = false;
+        }
+    }
+
+    public String[]  extraxtNames() { // extrahiert die Namen hinter den besten 5 Scores aus der DB und übergibt diese in einem Array
         PreparedStatement stmt;
         ResultSet rs;
         Connection conn;
@@ -43,7 +55,7 @@ public class sql extends Thread{
         return result;
     }
 
-    public int[]  extraxtScores() {
+    public int[]  extraxtScores() { // extrahiert die besten 5 Scores aus der DB und übergibt diese in einem Array
         PreparedStatement stmt;
         ResultSet rs;
         Connection conn;
@@ -64,13 +76,12 @@ public class sql extends Thread{
             stmt.close();
         } catch (Exception e) {
             e.printStackTrace();
-
         }
 
         return result;
     }
 
-    public boolean UpdateScore(String search_name, int score)
+    public boolean UpdateScore(String search_name, int score) // prüft ob der übergebene Name schon in der DB vorhanden ist und updatet den Score entweder oder leitet ihn weiter
     {
         PreparedStatement pstmt;
         Statement stmt;
@@ -111,19 +122,9 @@ public class sql extends Thread{
 
     }
 
-    public void test(){
-        Connection conn;
 
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://192.168.137.1:3306/flappySpace", "user2", "123456789");
-            conn.close();
-            connectionInfo = true;
-        } catch (SQLException e) {
-            connectionInfo = false;
-        }
-    }
 
-    public boolean insertScore(String search_name, int score)
+    public boolean insertScore(String search_name, int score)  // fügt einen neuen Datensatz in die Datenbank
     {
         Statement stmt;
         Connection conn;

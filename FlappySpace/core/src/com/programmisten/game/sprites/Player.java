@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import org.w3c.dom.Text;
-
 public class Player {
     private static final int GRAVITY = -10;
     private Vector2 position;
@@ -49,9 +47,6 @@ public class Player {
         this.velocity.y = jumpHeight;
     }
 
-    public void setVelocity(int y) {
-        this.velocity.y = y;
-    }
 
     public Rectangle getBounds(){
         return bounds;

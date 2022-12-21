@@ -146,9 +146,6 @@ public class PlayState extends State {
 
     }
 
-    public int getScore() {
-        return score;
-    }
 
     @Override
     public void dispose() {

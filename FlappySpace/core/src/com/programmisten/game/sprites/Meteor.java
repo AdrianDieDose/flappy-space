@@ -18,9 +18,6 @@ public class Meteor {
     private static final int meteorFluctuation = 70;
 
 
-
-
-
     public Meteor() {
         //Random x pos ? add maybe
         posTopMeteor = new Vector2(startMeteorXPos,(int)(Math.random() * meteorFluctuation) + topMeteorY);
@@ -41,9 +38,6 @@ public class Meteor {
         boundsTop.setPosition(posTopMeteor.x, posTopMeteor.y);
     }
 
-
-
-
     public Texture getMeteorBotTexture() {
         return meteorBot;
     }
@@ -51,12 +45,6 @@ public class Meteor {
         return meteorTop;
     }
 
-    public Rectangle getBoundsBot() {
-        return boundsBot;
-    }
-    public Rectangle getBoundsTop() {
-        return boundsTop;
-    }
 
     public boolean collides(Rectangle player){
         return  player.overlaps(boundsTop) || player.overlaps(boundsBot);

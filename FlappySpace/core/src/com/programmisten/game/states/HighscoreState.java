@@ -20,9 +20,6 @@ import com.programmisten.game.db.sql;
 public class HighscoreState extends State{
     private final Texture background;
     private final Texture homeBtn;
-    private final Texture muteBtn;
-    private final Texture unmuteBtn;
-
 
     private final Stage stage;
 
@@ -55,8 +52,6 @@ public class HighscoreState extends State{
 
         background = new Texture("spaceshort.jpg");
         homeBtn = new Texture("home.png");
-        muteBtn = new Texture("mute.png");
-        unmuteBtn = new Texture("unmute.png");
         highscoreBtn = new Texture("highscore1pressed.png");
 
 
@@ -92,8 +87,8 @@ public class HighscoreState extends State{
         int[] scores = new int[5];
         String[] names = new String[5];
 
-        scores = conn.extraxtScores();
-        names = conn.extraxtNames();
+        scores = conn.extraxtScores(); //speichert die Werte aus der DB im Array
+        names = conn.extraxtNames();   //speichert die Werte aus der DB im Array
 
         layer.add(title);
         layer.row();
@@ -165,8 +160,6 @@ public class HighscoreState extends State{
         homeBtn.dispose();
         background.dispose();
 
-        muteBtn.dispose();
-        unmuteBtn.dispose();
 
 
 

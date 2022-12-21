@@ -64,14 +64,6 @@ public class Endscreen extends State{
         conn.start();
 
 
-
-
-
-
-
-
-
-
         background = new Texture("spaceshort.jpg");
         homeBtn = new Texture("home.png");
         saveBtn = new Texture("mute.png");
@@ -89,21 +81,14 @@ public class Endscreen extends State{
         skin.font = new BitmapFont(Gdx.files.internal("skin.fnt"), false);
 
         exception = new Label("", skin);
-        //skin2 = new Skin();
-
 
 
         cam.setToOrtho(false, FlappySpace.WIDTH/2, FlappySpace.HEIGHT/2);
         rebuildStage();
 
 
-
-
-
     }
-
-
-
+    
     private void rebuildStage() {
         stage.clear();
         Stack stack = new Stack();
@@ -111,10 +96,6 @@ public class Endscreen extends State{
         stage.addActor(stack);
         stack.add(addScoreLabel());
     }
-
-
-
-
 
 
     private Actor addScoreLabel() {
@@ -156,8 +137,6 @@ public class Endscreen extends State{
         sound.play(volume);
     }
 
-
-
     @Override
     protected void handleInput() {
         // If touched
@@ -173,7 +152,7 @@ public class Endscreen extends State{
             // Collides with highscore button
             if (highscoreBtnBounds.contains(tmp.x, tmp.y)) {
                 PlaySound(button, 0.6f);
-                if(conn.getConnectionInfo()){
+                if(conn.getConnectionInfo()){  //prüft oft die DB erreichbar ist
                     gsm.set(new HighscoreState(gsm, userName, score));
                     exception.setText("");
                     dispose();
@@ -183,9 +162,9 @@ public class Endscreen extends State{
             }
             }
             if (saveBtnBounds.contains(tmp.x, tmp.y)) {
-                if (userName.equals("USER")) {
+                if (userName.equals("USER")) { //prüft ob der Name bereits geändert wurde bzw. bereits eine Speicherung statt fand
 
-                   if(conn.getConnectionInfo()){
+                   if(conn.getConnectionInfo()){ //prüft oft die DB erreichbar ist
                         inputListener.setScore(score);
                         exception.setText("");
                         Gdx.input.getTextInput(inputListener, "Congratulations!!!\nEnter your name for Ranking:", "", "");
@@ -233,10 +212,7 @@ public class Endscreen extends State{
     public void dispose() {
         homeBtn.dispose();
         background.dispose();
-
         saveBtn.dispose();
-
-
-
+        homeBtn.dispose();
     }
 }
